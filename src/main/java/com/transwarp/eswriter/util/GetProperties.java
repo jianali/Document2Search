@@ -29,6 +29,7 @@ public class GetProperties {
     public static String DISK_ELASTICSEARCH_SCAN_PATH = null;
 
     public static String FILE_FROMAT_SUPPORT = null;
+    public static String INPUT_PATH = null;
 
     static {
         FileInputStream in = null;
@@ -52,6 +53,7 @@ public class GetProperties {
             DISK_ELASTICSEARCH_SCAN_PATH = properties.getProperty("disk.elasticsearch.scan.path");
 
             FILE_FROMAT_SUPPORT = properties.getProperty("file.format.support");
+            INPUT_PATH = properties.getProperty("input.path");
             showConf();
             log.info("读取配置信息" + PROPERTIES_NAME + "成功！");
         }catch(Exception e){
@@ -71,6 +73,7 @@ public class GetProperties {
     public static void showConf(){
         log.info("-----------------------配置信息-----------------");
 
+        log.info("INPUT_PATH: "+INPUT_PATH);
         log.info("ELASTICSEARCH_IP: "+ELASTICSEARCH_IP);
         log.info("ELASTICSEARCH_API_PORT: "+ELASTICSEARCH_API_PORT);
         log.info("ELASTICSEARCH_CLUSTER_NAME: "+ELASTICSEARCH_CLUSTER_NAME);
@@ -85,6 +88,7 @@ public class GetProperties {
         log.info("DISK_ELASTICSEARCH_SCAN_PATH: "+DISK_ELASTICSEARCH_SCAN_PATH);
 
         log.info("FILE_FROMAT_SUPPORT: "+FILE_FROMAT_SUPPORT);
+
         log.info("----------------------------------------------");
     }
 
