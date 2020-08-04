@@ -31,6 +31,25 @@ public class GetProperties {
     public static String FILE_FROMAT_SUPPORT = null;
     public static String INPUT_PATH = null;
 
+    public static String getPRINCIPAL() {
+        return PRINCIPAL;
+    }
+
+    public static void setPRINCIPAL(String PRINCIPAL) {
+        GetProperties.PRINCIPAL = PRINCIPAL;
+    }
+
+    public static String getKeytabPath() {
+        return KEYTAB_PATH;
+    }
+
+    public static void setKeytabPath(String keytabPath) {
+        KEYTAB_PATH = keytabPath;
+    }
+
+    public static String PRINCIPAL = null;
+    public static String KEYTAB_PATH = null;
+
     static {
         FileInputStream in = null;
         try{

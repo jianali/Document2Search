@@ -21,7 +21,15 @@ import transwarp.org.elasticsearch.index.reindex.DeleteByQueryAction;
 import transwarp.org.elasticsearch.search.SearchHit;
 import transwarp.org.elasticsearch.search.SearchHits;
 import transwarp.org.elasticsearch.transport.client.PreBuiltTransportClient;
+import transwarp.org.elasticsearch.plugins.Plugin;
+import io.transwarp.plugin.doorkeeper.client.DoorKeeperClientPlugin;
 
+import org.apache.hadoop.security.UserGroupInformation;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.CommonConfigurationKeys;
+
+import java.net.InetSocketAddress;
+import java.util.Collections;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -55,13 +63,47 @@ public class ESUtil {
     private static TransportClient client;
     private static Settings settings = Settings.builder()
             .put("cluster.name", CLUSTER_NAME)
+            .put("security.enable",true)
+            .put("transport.type","security-netty3")
             .build();
 
+    /**
+     * 1. 获得⽤户的keytab；
+     * 2. 在客户端初始化的时候执⾏下⾯的代码
+     *
+     * @param principal
+     * @param keytabPath
+     * @throws IOException
+     */
+
+    private static void initSecurityContext(String principal, String keytabPath)
+            throws IOException {
+        Configuration cnf = new Configuration();
+        cnf.set(CommonConfigurationKeys.HADOOP_SECURITY_AUTHENTICATION,
+                "kerberos");
+        UserGroupInformation.setConfiguration(cnf);
+        UserGroupInformation.loginUserFromKeytab(principal, keytabPath);
+    }
+
+
     static {
+
+//        String principal = GetProperties.PRINCIPAL;
+//        String keytabPath = GetProperties.getKeytabPath();
+
+        String principal = "elasticsearch/linu-4-29@TDH";
+        String keytabPath = "/etc/search1/instancegroup1/conf/search.keytab";
+
         try {
-            client = new PreBuiltTransportClient(settings)
+            initSecurityContext(principal,keytabPath);
+//            client = new PreBuiltTransportClient(settings)
+//                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(ESIP), PORT));
+            client = new PreBuiltTransportClient(settings,
+                    Collections.<Class<? extends Plugin>>singletonList(DoorKeeperClientPlugin.class))
                     .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(ESIP), PORT));
         } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
