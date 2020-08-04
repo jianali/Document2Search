@@ -128,6 +128,22 @@ while [[ $# -gt 0 ]] || [[ $# -ne 0 ]]; do
                 shift
                 ;;
 
+            --isopen.security)
+                shift
+                    DOC2ES_CONF="${DOC2ES_CONF} -SECURITY $1"
+                shift
+                ;;
+            --keytab)
+                shift
+                    DOC2ES_CONF="${DOC2ES_CONF} -KEYTAB $1"
+                shift
+                ;;
+            --principal)
+                shift
+                    DOC2ES_CONF="${DOC2ES_CONF} -PRINCIPAL $1"
+                shift
+                ;;
+
 
                       *)
                 echo "the input config is error, please check the config!!!"$1
@@ -136,4 +152,5 @@ while [[ $# -gt 0 ]] || [[ $# -ne 0 ]]; do
         esac
 done
 
-exec java -jar Document2Search-1.0-SNAPSHOT-jar-with-dependencies.jar $DOC2ES_CONF
+#exec java -jar Document2Search-1.0-SNAPSHOT-jar-with-dependencies.jar $DOC2ES_CONF
+exec java -cp ./Document2Search-1.0-SNAPSHOT.jar:dependency/* com.transwarp.eswriter.main.Main $DOC2ES_CONF

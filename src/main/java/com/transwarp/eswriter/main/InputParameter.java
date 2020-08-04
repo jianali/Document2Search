@@ -38,6 +38,37 @@ public class InputParameter {
     private  String DISK_ELASTICSEARCH_SCAN_PATH = null;
     @Parameter(names = {"-FILE_FROMAT_SUPPORT"},description = "")
     private  String FILE_FROMAT_SUPPORT = null;
+    @Parameter(names = {"-SECURITY"},description = "")
+    private  String SECURITY = null;
+    @Parameter(names = {"-PRINCIPAL"},description = "")
+    private  String PRINCIPAL = null;
+    @Parameter(names = {"-KEYTAB"},description = "")
+    private  String KEYTAB = null;
+
+    public String getSECURITY() {
+        return SECURITY;
+    }
+
+    public void setSECURITY(String SECURITY) {
+        this.SECURITY = SECURITY;
+    }
+
+    public String getPRINCIPAL() {
+        return PRINCIPAL;
+    }
+
+    public void setPRINCIPAL(String PRINCIPAL) {
+        this.PRINCIPAL = PRINCIPAL;
+    }
+
+    public String getKEYTAB() {
+        return KEYTAB;
+    }
+
+    public void setKEYTAB(String KEYTAB) {
+        this.KEYTAB = KEYTAB;
+    }
+
 
 
     public String getINPUT_PATH() {

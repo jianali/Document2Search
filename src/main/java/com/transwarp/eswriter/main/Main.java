@@ -67,6 +67,13 @@ public class Main {
         if (inputParameter.getFILE_FROMAT_SUPPORT()!=null && inputParameter.getFILE_FROMAT_SUPPORT().length()!=0 )
             GetProperties.FILE_FROMAT_SUPPORT=inputParameter.getFILE_FROMAT_SUPPORT();
 
+        if (inputParameter.getKEYTAB()!=null && inputParameter.getKEYTAB().length()!=0 )
+            GetProperties.KEYTAB=inputParameter.getKEYTAB();
+        if (inputParameter.getPRINCIPAL()!=null && inputParameter.getPRINCIPAL().length()!=0 )
+            GetProperties.PRINCIPAL=inputParameter.getPRINCIPAL();
+        if (inputParameter.getSECURITY()!=null && inputParameter.getSECURITY().length()!=0 )
+            GetProperties.SECURITY=Boolean.parseBoolean(inputParameter.getSECURITY());
+
         log.info("配置信息结果如下：");
         GetProperties.showConf();
 

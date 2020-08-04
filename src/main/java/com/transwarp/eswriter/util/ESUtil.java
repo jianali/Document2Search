@@ -55,17 +55,14 @@ public class ESUtil {
     static final String MAIL_LEVEL = GetProperties.ELASTICSEARCH_INDEX_FIELD_MAILLEVEL;
     static final String LOAD_TIME = GetProperties.ELASTICSEARCH_INDEX_FIELD_LOADTIME;
     static final String NODE_ID = GetProperties.ELASTICSEARCH_INDEX_FIELD_NODEID;
+    static final boolean SECURITY = GetProperties.SECURITY;
     static final String SENDER = "sender";
     static final String SENDERADDRESS = "senderaddress";
     static final String RECIPIENT = "recipient";
     static final String RECIPIENTADDRESS = "recipientaddress";
 
     private static TransportClient client;
-    private static Settings settings = Settings.builder()
-            .put("cluster.name", CLUSTER_NAME)
-            .put("security.enable",true)
-            .put("transport.type","security-netty3")
-            .build();
+    private static Settings settings;
 
     /**
      * 1. 获得⽤户的keytab；
@@ -88,14 +85,25 @@ public class ESUtil {
 
     static {
 
-//        String principal = GetProperties.PRINCIPAL;
-//        String keytabPath = GetProperties.getKeytabPath();
-
-        String principal = "elasticsearch/linu-4-29@TDH";
-        String keytabPath = "/etc/search1/instancegroup1/conf/search.keytab";
+          String principal = GetProperties.PRINCIPAL;
+          String keytabPath = GetProperties.KEYTAB;
+          boolean isopenSecurity = GetProperties.SECURITY;
+//        String principal = "elasticsearch/linu-4-29@TDH";
+//        String keytabPath = "/etc/search1/instancegroup1/conf/search.keytab";
 
         try {
-            initSecurityContext(principal,keytabPath);
+            if(isopenSecurity) {
+                settings = Settings.builder()
+                        .put("cluster.name", CLUSTER_NAME)
+                        .put("security.enable",SECURITY)
+                        .put("transport.type","security-netty3")
+                        .build();
+                initSecurityContext(principal,keytabPath);
+            }else{
+                settings = Settings.builder()
+                        .put("cluster.name", CLUSTER_NAME)
+                        .build();
+            }
 //            client = new PreBuiltTransportClient(settings)
 //                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(ESIP), PORT));
             client = new PreBuiltTransportClient(settings,

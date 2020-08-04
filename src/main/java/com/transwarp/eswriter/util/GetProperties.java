@@ -31,6 +31,26 @@ public class GetProperties {
     public static String FILE_FROMAT_SUPPORT = null;
     public static String INPUT_PATH = null;
 
+    public static String PRINCIPAL = null;
+    public static String KEYTAB = null;
+    public static boolean SECURITY = false;
+
+
+    public static String getKEYTAB() {
+        return KEYTAB;
+    }
+
+    public static void setKEYTAB(String KEYTAB) {
+        GetProperties.KEYTAB = KEYTAB;
+    }
+    public static boolean isSECURITY() {
+        return SECURITY;
+    }
+
+    public static void setSECURITY(boolean SECURITY) {
+        GetProperties.SECURITY = SECURITY;
+    }
+
     public static String getPRINCIPAL() {
         return PRINCIPAL;
     }
@@ -39,16 +59,9 @@ public class GetProperties {
         GetProperties.PRINCIPAL = PRINCIPAL;
     }
 
-    public static String getKeytabPath() {
-        return KEYTAB_PATH;
-    }
 
-    public static void setKeytabPath(String keytabPath) {
-        KEYTAB_PATH = keytabPath;
-    }
 
-    public static String PRINCIPAL = null;
-    public static String KEYTAB_PATH = null;
+
 
     static {
         FileInputStream in = null;
@@ -73,7 +86,11 @@ public class GetProperties {
 
             FILE_FROMAT_SUPPORT = properties.getProperty("file.format.support");
             INPUT_PATH = properties.getProperty("input.path");
-            showConf();
+
+            SECURITY = Boolean.parseBoolean(properties.getProperty("isopen.security"));;
+            PRINCIPAL = properties.getProperty("principal");;
+            KEYTAB = properties.getProperty("keytab");;
+            //showConf();
             log.info("读取配置信息" + PROPERTIES_NAME + "成功！");
         }catch(Exception e){
             e.printStackTrace();
@@ -107,6 +124,9 @@ public class GetProperties {
         log.info("DISK_ELASTICSEARCH_SCAN_PATH: "+DISK_ELASTICSEARCH_SCAN_PATH);
 
         log.info("FILE_FROMAT_SUPPORT: "+FILE_FROMAT_SUPPORT);
+        log.info("SECURITY: "+SECURITY);
+        log.info("KEYTAB: "+KEYTAB);
+        log.info("PRINCIPAL: "+PRINCIPAL);
 
         log.info("----------------------------------------------");
     }
